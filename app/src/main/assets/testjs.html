@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Carson_Ho</title>
+    <script src="./js/jquery-1.4.2.min.js"></script>
+    <script src="./js/echarts.min.js"></script>
+    <script src="./js/theme/macarons.js"></script>
+</head>
+<body>
+<div id="main" style="height:300px;width:100%;"></div>
+<!-- ECharts单文件引入 -->
+
+<script>
+    <!--Android需要调用的方法-->
+       function callJS(){
+          alert("Android调用了JS的callJS方法");
+       }
+
+    <!--初始化路径-->
+    var myChart;
+
+    <!--通用属性定义-->
+    var options = {
+        title : {
+            text : "Echart测试"
+        },
+        tooltip : {
+            show : true,
+            trigger : 'axis',
+            showContent : true
+        },
+        toolbox : {
+            show : true,
+            feature: {
+                 saveAsImage: {},
+                 restore: {},
+                 dataView: {
+                    readOnly: false
+                 },
+                 magicType: {
+                    type: ["line", "bar"]
+                  }
+            }
+        }
+    };
+
+    <!--创建折线图-->
+    function createLineChart(dataArray) {
+        options = {
+        legend: {},
+        tooltip: {},
+        toolbox : {
+            show : true,
+            feature: {
+                 saveAsImage: {},
+                 restore: {},
+                 dataView: {
+                    readOnly: false
+                 },
+                 magicType: {
+                    type: ["line", "bar"]
+                  }
+            }
+        },
+        dataset: {
+            source:
+                dataArray
+        },
+        xAxis: {
+            type: 'category',
+            axisPointer : {
+                show : true,
+                type : 'line',
+                lineStyle : {
+                    color : 'rgba(0, 34, 255, 1)',
+                    width : 1
+                }
+            },
+            triggerOn : 'mousemove|click'
+        },
+        yAxis: {},
+        // Declare several bar series, each will be mapped
+        // to a column of dataset.source by default.
+        series: [
+            {type: 'line'},
+            {type: 'line'},
+            {type: 'line'},
+            {type: 'line'},
+        ]
+    };
+    }
+
+
+    <!--创建柱状图-->
+    function createBarChart(dataArray){
+       options = {
+            legend: {},
+            tooltip: {},
+            dataset: {
+                source:
+                    dataArray
+            },
+            xAxis: {type: 'category'},
+            yAxis: {},
+            // Declare several bar series, each will be mapped
+            // to a column of dataset.source by default.
+            series: [
+                {type: 'bar'},
+                {type: 'bar'},
+                {type: 'bar'},
+                {type: 'bar'},
+            ]
+        };
+    }
+
+     <!--创建饼状图-->
+    function createPieChart(dataArray){
+        options = {
+            series : [
+                {
+                    type:'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:335, name:'直接访问'},
+                        {value:310, name:'邮件营销'},
+                        {value:234, name:'联盟广告'},
+                        {value:135, name:'视频广告'},
+                        {value:1548, name:'搜索引擎'}
+                    ]
+                }
+            ]
+        };
+    }
+
+    function createChart(chartKind,dataArray){
+        if (chartKind=='line') {
+            doCreatChart(createLineChart(dataArray));
+        };
+        if (chartKind=='bar') {
+            doCreatChart(createBarChart(dataArray));
+        };
+        if (chartKind=='pie') {
+            doCreatChart(createPieChart(dataArray));
+        };
+    }
+
+     function doCreatChart(specificChartFunction){
+        myChart =echarts.init(document.getElementById('main'));
+        specificChartFunction;
+        myChart.setOption(options); <!--先把可选项注入myChart中-->
+    }
+
+    </script>
+</body>
+</html>

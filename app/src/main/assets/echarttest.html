@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>EchartTest</title>
+</head>
+<body>
+<script src="./js/jquery-1.4.2.min.js"></script>
+<script src="./js/echarts.js"></script>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 100%;height:70%;"></div>
+<script type="text/javascript">
+    function callJS(){
+          alert("Android调用了JS的callJS方法");
+    }
+
+    //创建柱状图
+     function createBarChart(dataArray){
+            // 指定图表的配置项和数据
+            alert("createBarChart");
+            var myChart=ec.init(document.getElementById('main'),theme);
+            var option = {
+                title: {
+                    text: 'grade'
+                },
+                legend: {
+                    data:['成绩']
+                },
+                xAxis: {
+                    data: ["数学","语文","英语","政治","物理","化学"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '成绩',
+                    type: 'bar',
+                    data: dataArray
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+      }
+
+    function doCreateChart(specificChartFunction){
+        require(
+            ['echarts','echarts/theme/macarons','echarts/chart/line','echarts/chart/bar','echarts/chart/pie'],
+            function(ec,theme){
+                myChart=ec.init(document.getElementById('main'),theme);
+                myChart.showLoading(
+                    [text:"图表数据正在努力加载..."]
+                );
+                specificChartFunction;
+                 // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+                myChart.hideLoading();
+            }
+        );
+     }
+
+     window.onload=function(){
+        createBarchart([98,89,76,54,32,12]);
+     }
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Carson_Ho</title>
+    <script src="./js/jquery-1.4.2.min.js"></script>
+    <script src="./js/echarts.min.js"></script>
+    <script src="./js/theme/macarons.js"></script>
+</head>
+<body>
+<div id="main" style="height:300px;width:100%;"></div>
+<!-- ECharts单文件引入 -->
+<script>
+    <!--初始化路径-->
+    var myChart;
+
+    <!--通用属性定义-->
+    <!--创建折线图-->
+    function createLineChart(dataArray) {
+        options = {
+        title : {
+            text : '月度入厂入炉库存数据',
+            left: 0
+        },
+        legend: {},
+        tooltip:{
+             trigger: 'axis',
+             axisPointer : {
+                show : true,
+                type : 'line',
+                lineStyle : {
+                    color : 'rgba(0, 34, 255, 1)',
+                    width : 1
+                }
+            },
+            triggerOn : 'mousemove|click',
+        },
+        toolbox : {
+            show : true,
+            feature: {
+                 saveAsImage: {show: true},
+                 restore: {show: true},
+                 dataView: {
+                    readOnly: false
+                 },
+                 magicType: {
+                    show: true,
+                    type: ["line", "bar"]
+                  }
+            }
+        },
+        dataset: {
+            source:
+                dataArray
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: [
+            {
+                position: 'left'
+            },
+            {
+                name:  '标单',
+                position: 'right',
+                min:(value)=>{
+                    return value.min
+                },
+                max:(value)=>{
+                    return value.max
+                }
+            }
+        ],
+        // Declare several bar series, each will be mapped
+        // to a column of dataset.source by default.
+        series: [
+            {type: 'line'},
+            {type: 'line'},
+            {type: 'line'},
+            {
+                type: 'line',
+                yAxisIndex: 1
+            },
+             {
+                type: 'line',
+                yAxisIndex:1
+            },
+            {type: 'line'},
+            {type: 'line'}
+        ]
+    };
+    }
+
+
+    <!--创建柱状图-->
+    function createBarChart(dataArray){
+       options = {
+            legend: {},
+            tooltip: {},
+            dataset: {
+                source:
+                    dataArray
+            },
+            xAxis: {type: 'category'},
+            yAxis: {},
+            // Declare several bar series, each will be mapped
+            // to a column of dataset.source by default.
+            series: [
+                {type: 'bar'},
+                {type: 'bar'},
+                {type: 'bar'},
+                {
+                    type: 'bar',
+                    yAxisIndex: 1
+                },
+                 {
+                    type: 'bar',
+                    yAxisIndex:1
+                },
+                {type: 'bar'},
+                {type: 'bar'}
+            ]
+        };
+    }
+
+    function createChart(chartKind,dataArray){
+        if (chartKind=='line') {
+            doCreatChart(createLineChart(dataArray));
+        };
+        if (chartKind=='bar') {
+            doCreatChart(createBarChart(dataArray));
+        };
+    }
+
+     function doCreatChart(specificChartFunction){
+        myChart =echarts.init(document.getElementById('main'));
+        specificChartFunction;
+        myChart.setOption(options); <!--先把可选项注入myChart中-->
+    }
+
+    </script>
+</body>
+</html>
